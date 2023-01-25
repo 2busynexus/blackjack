@@ -1,33 +1,34 @@
-
+let difficulty = document.getElementById("difficulty").value
 let deal = document.getElementById("deal")
 let cards = document.getElementById("cards")
-let startMsg = document.getElementById("startMsg")
+let dealerCards = document.getElementById("dealerCards")
 let result = document.getElementById("result")
 let newCard = document.getElementById("newCard")
 let winner = document.getElementById("winner")
-
 let playerResult = document.getElementById("playerResult")
 
-document.querySelector("#welcomeScreen button").style.display = "none"
-
+document.querySelector("#welcomeScreen button").style.visibility = "hidden"
+result.style.display = "inline-block"
 let player = {}
 
-function playerName() {
-    let playerName = document.getElementById("playerName").value
-    document.getElementById('introScreen').style.display = "none"
-    document.getElementById("welcomeScreen").style.display = "flex"
-    player.name = playerName
-    document.getElementById("playerName").textContent = player.Name
-}
+let playerForm = document.getElementById("playerForm")
+playerForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    let playerName = document.getElementById("playerName").value;
+    document.getElementById('introScreen').style.display = "none";
+    document.getElementById("welcomeScreen").style.display = "flex";
+    player.name = playerName;
+    document.getElementById("playerName").textContent = player.Name;
+  });
+
 
 function swipe() {
     player.chips = 1000
     document.getElementById("playerChips").textContent = player.chips
-   // pot.textContent = player.name + " " + player.chips
     swipeConfirm.style.visibility = "visible"
-    document.getElementById("swipeConfirm").textContent = `Your funds have been added. You have now ${player.chips} chips to play with`
+    document.getElementById("swipeConfirm").style.visibility = "visible"
     document.getElementById("swipe").classList.add("anim")
-    document.querySelector("#welcomeScreen button").style.display = "block"
+    document.querySelector("#welcomeScreen button").style.visibility = "visible"
 }
 
 const play = () => {
@@ -42,49 +43,41 @@ let arr = []
 let sum = 0
 let dealerArr = []
 let sumDealer = 0
-
-//newCard.disabled = true
-//winner.disabled = true
-
+difficulty *= 10
+let dealerArea = document.querySelector(".dealerHand div")
+let playerArea = document.querySelector(".playerHand div")
 
 function start() {
     deal.disabled = true
     newCard.disabled = false
     winner.disabled = false
+    //cards.textContent = ""
+    //dealerCards.textContent = ""
+    playerArea.innerHTML = ""
+    dealerArea.innerHTML = ""
     
     /* Player hand */
     sum = 0
     arr.push(drawCard(), drawCard())
-    for (let i=0; i<arr.length; i++) {
+    for (let i in arr) {
         sum += arr[i]
+        render(arr[i], playerArea) + " "
     }
-    cards.textContent = render(arr)
     playerResult.textContent = "Total = " + sum
+    
     /* Dealer hand */
+    sumDealer = 0
     dealerArr.push(drawCard(), drawCard())
-    for (let i=0; i<dealerArr.length; i++) {
+    for (let i in dealerArr) {
         sumDealer += dealerArr[i]
+        if (i == 0) {
+            render("X" , dealerArea)
+        } else {
+            render(dealerArr[i], dealerArea) + " "
+        }
     }
-    result.textContent = dealerArr
     blackjack()
-}
-
-function blackjack() {
-    if (sum < 21) {
-        result.textContent = "Under 21. Drag another card?"
-    } else if (sum == 21) {
-        result.textContent = "WOHOOO, Blackjack!!!"
-        arr = []
-        player.chips += 10
-        enableButtons()
-    } else {
-        result.textContent = "Over 21. Better luck next time!"
-        arr = []
-        player.chips -= 10
-        enableButtons()
-        
-    }
-    document.getElementById("playerChips").textContent = player.chips
+    console.log("initial: " + dealerArr + " sum is: " + sumDealer)
 }
 
 function drawCard() {
@@ -96,40 +89,93 @@ function drawCard() {
     } else return x
 }
 
+function render(arg, area) {
+    switch (arg) {
+        case 10: 
+            {
+                let x = ["J", "Q", "K"]
+                let index = Math.floor(Math.random() * x.length)
+                area.appendChild(createCard(x[index]))
+            }
+            break
+        case 1:
+        case 11:
+            area.appendChild(createCard("A"))
+            break
+        default:
+            area.appendChild(createCard(arg))
+            break
+    }
+}
+
+function createCard(text) {
+    let card = document.createElement("div")
+    card.className = "visualCard"
+    card.textContent = text
+    return card
+}
+
+function blackjack() {
+    if (sum < 21) {
+        result.textContent = "Under 21. Drag another card?"
+    } else if (sum == 21) {
+        result.textContent = "WOHOOO, Blackjack!!!"
+        arr = []
+        player.chips += difficulty
+        enableButtons()
+    } else {
+        result.textContent = "Over 21. Better luck next time!"
+        arr = []
+        player.chips -= difficulty
+        enableButtons()
+    }
+    document.getElementById("playerChips").textContent = player.chips
+}
+
+
+
 function drawAgain() {
     arr.push(Math.floor(Math.random()*10)+2)
     sum += arr[arr.length-1]
-    cards.textContent += " " + renderCard(arr[arr.length-1])
+    render(arr[arr.length-1], playerArea)
     playerResult.textContent = "Total = " + sum
     blackjack()
 }
 
-function dealer() {
+function check() {
     
+    //dealerCards.textContent = ""
+    dealerArea.innerHTML = ""
+    for (let i in dealerArr) {
+        render(dealerArr[i], dealerArea)
+    }
+    console.log("before 17: " + dealerArr + " sum is: " + sumDealer)
     for (let i=dealerArr.length; sumDealer<17; i++) {
         dealerArr.push(drawCard())
         sumDealer += dealerArr[i]
+        render(dealerArr[i], dealerArea)
     }
-    
+    console.log("after 17: " + dealerArr + " sum is: " + sumDealer)
+
     result.textContent = dealerArr
     if (sum>sumDealer) {
         result.textContent = "YOU WON! Dealer has weaker cards: "
-        render()
-        player.chips += 10
+        
+        player.chips += difficulty
         enableButtons()
     } else if (sum == sumDealer) {
         result.textContent = "TIE"
-        render()
+       
         enableButtons()
     } else if (sum<sumDealer && sumDealer>21) {
         result.textContent = "YOU WON! Dealer went over: "
-        render()
+       
         enableButtons()
-        player.chips += 10
+        player.chips += difficulty
     } else {
         result.textContent = "YOU LOST! Dealer has better cards: "
-        render()
-        player.chips -= 10
+      
+        player.chips -= difficulty
         enableButtons()
     }
     document.getElementById("playerChips").textContent = player.chips
@@ -139,20 +185,7 @@ function enableButtons() {
     deal.disabled = false
     newCard.disabled = true
     winner.disabled = true
+    arr = []
+    dealerArr = []
 }
 
-function render(arg) {
-    for (let i=0; i<arg.length; i++) {
-         if (arg[i]<10) {
-            return arg[i]
-    } else if (arg[i]==10) {
-        let x = ["J", "Q", "K"]
-        //result.textContent += x[Math.floor(Math.random() * x.length)]
-        return x[Math.floor(Math.random() * x.length)]
-    } else {
-        //result.textContent += "A"
-        return "A"
-    }
-        //result.textContent += " " + renderCard(dealerArr[i])
-    }    
-}
