@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Blackjack 21 - Higher Ace</title>
+</head>
+<body>
+
+    <div class="container">
+        <div id="introScreen">
+            <h1>Hello!</h1>
+            <h1>What's your name?</h1>
+            <input type="text" id="playerName" required="yes">
+            <button onclick=playerName()>Submit</button>
+            <!-- ISSUE 1
+            <form action="/action_page.php">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <input type="submit">
+            </form>
+            -->
+        </div>
+
+        <div id="welcomeScreen">
+            <h1>Welcome to Blackjack!</h1>
+            <h2>Let's find you a table suitable for your playstyle.</h2>
+            
+            <input type="range" id="difficulty" min="1" max="5" step="1" value="1">
+            <label for="difficulty">the higher it is, the bigger will be the bets</label>
+
+            <h3>Please swipe your card to add funds</h2> 
+            <p><img src="img/card1.png" alt="card" id="swipe" onclick="swipe()"></p>
+            
+            <h2 id="swipeConfirm"></h2>
+            <button onclick="play()">Play</button>
+        </div>
+
+        <div id="gameScreen">
+                <div class="table playerDetails">
+                    <h3>Player's name : <span id="playerName"></span></h3>
+                    <h3>Chips : <span id="playerChips"></span></h3>
+                    <h3 id="pot"></h3>
+                </div>
+                <div class="table playerUi">
+                    <button id="deal" onclick="start()">DEAL CARDS</button>
+                    <button id="newCard" onclick="drawAgain()" disabled>HIT ME</button>
+                    <button id="winner" onclick="dealer()" disabled>CHECK WINNER</button>
+                </div>
+                <div class="table dealerHand">
+                    <h1 id="result"></h1>
+                </div>
+                <div class="table playerHand">
+                    <h3>Here are your cards:</h3>
+                    <h1 id="cards"></h2>
+                    <h2 id="playerResult"></h2>
+                    
+                </div>
+            </div>
+
+    </div>
+
+    <script src="script.js"></script> 
+</body>
+</html>

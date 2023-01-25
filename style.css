@@ -1,0 +1,123 @@
+* {
+  font-family: 'Montserrat', sans-serif;  
+  
+}
+
+body {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: hsl(100, 40%, 25%);
+    color: hsl(100, 20%, 95%);
+    height: 100vh;
+    width: 100vw;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: hsl(100, 20%, 45%);
+  border-radius: 20px;
+  width: 70%;
+  height: 70%;
+}
+
+#introScreen {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+button {
+  border: 0px;
+  border-radius: 10px;
+  width: 200px;
+  height: 50px;
+  background-color: hsl(0, 70%, 50%);
+  margin: 10px 0px;
+  font-weight: 900;
+  color: white;
+  transition: 0.5s;
+}
+
+button:hover {
+  background-color: hsl(0, 70%, 20%);
+}
+
+button:disabled {
+  background-color: hsl(0, 30%, 20%);
+}
+
+#welcomeScreen {
+  align-items: center;
+  flex-direction: column;
+  display: none;
+}
+
+#difficulty {
+  width: 200px;
+}
+
+label {
+  color: hsl(100, 40%, 25%);
+}
+
+#swipe {
+  width: 60px;
+}
+
+.anim {
+  animation: swipeCard 3s;
+}
+
+#swipeConfirm {
+  visibility: hidden;
+}
+
+@keyframes swipeCard {
+  25% {
+    scale: 3;
+  }
+  50% {
+    transform: rotate(-90deg)  translateX(150px) translateY(175px);
+    scale: 3;
+  }
+  75% {
+    transform: rotate(-90deg) translateX(-85px) translateY(175px);
+    scale: 3;
+  }
+}
+
+#gameScreen {
+  display: none;
+  grid-template-areas:
+    "playerDetails dealerHand" /* ISSUE 2*/
+    "playerUi playerHand" ;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 1fr 1fr;
+  width: 100%;
+  height: 100%;
+  gap: 5px;
+  border-radius: 20px;
+}
+
+.table {
+ background-color: hsl(100, 20%, 45%);
+ border-radius: 20px;
+ display: flex;
+ /* ISSUE 3
+ align-items: center;
+ justify-content: center;
+ */
+ flex-direction: column;
+}
+
+.playerHand h3{
+  position: relative;
+  color: red;
+  top: 50px;
+}
+
