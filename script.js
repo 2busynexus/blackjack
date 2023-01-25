@@ -71,7 +71,7 @@ function start() {
     for (let i in dealerArr) {
         sumDealer += dealerArr[i]
         if (i == 0) {
-            render("X" , dealerArea)
+            render("" , dealerArea)
         } else {
             render(dealerArr[i], dealerArea) + " "
         }
