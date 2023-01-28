@@ -4,7 +4,8 @@
 }
 
 body {
-    position: relative;
+    /* position: relative; */
+    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,6 +13,8 @@ body {
     color: hsl(100, 20%, 95%);
     height: 100vh;
     width: 100vw;
+    margin: 0;
+    
 }
 
 .container {
@@ -23,6 +26,7 @@ body {
   border-radius: 20px;
   width: 70%;
   height: 70%;
+  position: fixed;
 }
 
 #introScreen {
@@ -49,6 +53,10 @@ button:hover, #submitBtn:hover {
 
 button:disabled {
   background-color: hsl(0, 30%, 20%);
+}
+
+button:active {
+  background-color: hsl(0, 70%, 50%);
 }
 
 #welcomeScreen {
@@ -103,30 +111,35 @@ label {
 #gameScreen {
   display: none;
   grid-template-areas:
-    "playerDetails dealerHand" /* ISSUE 2*/
+    "playerDetails dealerHand"
     "playerUi playerHand" ;
   grid-template-columns: 1fr 3fr;
   grid-template-rows: 1fr 1fr;
   width: 100%;
   height: 100%;
-  gap: 5px;
+  gap: 10px;
   border-radius: 20px;
 }
 
 .playerDetails {
-  grid-area: playerDetails
+  grid-area: playerDetails;
+  text-align: center;
+}
+
+.playerDetails h2 {
+  margin: 0 2rem;
 }
 
 .dealerHand {
-  grid-area: dealerHand
+  grid-area: dealerHand;
 }
 
 .playerUi {
-  grid-area: playerUi
+  grid-area: playerUi;
 }
 
 .playerHand {
-  grid-area: playerHand
+  grid-area: playerHand;
 }
 
 .table {
@@ -141,6 +154,7 @@ label {
 .dealerHand {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .dealerHand h3{
@@ -152,7 +166,8 @@ label {
 .dealerHand div, .playerHand div {
   display: flex;
   flex-direction: row;
-  margin: 0 0.5rem;
+  flex-wrap: wrap;
+  margin: 0.5rem 0.5rem;
   justify-content: center;
   align-items: center;
 }
@@ -160,6 +175,7 @@ label {
 .playerHand {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .playerHand h3{
@@ -174,4 +190,83 @@ label {
   height: 12rem;
   width: 8rem;
   font-size: 5rem;
+
 }
+
+/*
+For Mobile Devices – 320px — 480px
+iPads and Tablets – 481px — 768px
+Laptops and small screen – 769px — 1024px
+Large screens and Desktops – 1025px — 1200px
+TV and Extra Large Screens – 1201px and more
+*/
+
+@media screen and (max-width: 1300px) { /* 1200 */
+  .container {
+    width: 90%;
+    height: 80%;
+  }
+  .playerHand h3, .dealerHand h3{
+    bottom: 0;
+  }
+}
+
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  .body {
+    display: block;
+  }
+  .container {
+    width: 90%;
+    height: 95%;
+  }
+  #gameScreen {
+    grid-template-areas:
+    "playerDetails playerUi "
+    "playerHand dealerHand" ;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 3fr;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  
+  button {
+   height: 75px;
+   margin: 1rem;
+   text-align: center;
+  }
+  #gameScreen {
+    grid-template-areas: 
+    "playerDetails playerUi"
+    "playerHand playerHand"
+    "dealerHand dealerHand";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+  .dealerHand div, .playerHand div {
+    justify-content: space-around;
+  }
+
+  .playerDetails {
+   padding: 10%;
+  }
+
+  .container {
+    text-align: center;
+    position: relative;
+  }
+}
+
+
+@media screen and (max-width: 480px) {
+  #playerDetails {
+  }
+  .container {
+    width: 90%;
+  }
+}
+  
+
+
+
+

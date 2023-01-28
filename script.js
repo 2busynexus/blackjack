@@ -77,7 +77,7 @@ function start() {
         }
     }
     blackjack()
-    console.log("initial: " + dealerArr + " sum is: " + sumDealer)
+   // console.log("initial: " + dealerArr + " sum is: " + sumDealer)
 }
 
 function drawCard() {
@@ -149,13 +149,13 @@ function check() {
     for (let i in dealerArr) {
         render(dealerArr[i], dealerArea)
     }
-    console.log("before 17: " + dealerArr + " sum is: " + sumDealer)
+   // console.log("before 17: " + dealerArr + " sum is: " + sumDealer)
     for (let i=dealerArr.length; sumDealer<17; i++) {
         dealerArr.push(drawCard())
         sumDealer += dealerArr[i]
         render(dealerArr[i], dealerArea)
     }
-    console.log("after 17: " + dealerArr + " sum is: " + sumDealer)
+   // console.log("after 17: " + dealerArr + " sum is: " + sumDealer)
 
     result.textContent = dealerArr
     if (sum>sumDealer) {
@@ -188,4 +188,9 @@ function enableButtons() {
     arr = []
     dealerArr = []
 }
-
+let btns = document.querySelectorAll("button")
+btns.addEventListener("click" , function () {
+    btns.disabled = true
+    btns.disabled = false
+    console.log("click")
+})
